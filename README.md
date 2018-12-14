@@ -97,10 +97,11 @@ The `<env>` options are `dev`, `beta`, `prod`
 
 _TL;DR_
 <br>
-It all starts on `package/dashboard`. Then imported packages are compiled via webpack + babel-loader, with the exception of `packages/dashboard-legacy` that is built via grunt scripts. Those compilations happen on every build, but we have hot-reload (`yarn serve:env`)! So that only changed parts of the code are re-built.
+It all starts on `package/dashboard` build. Then imported packages are compiled via webpack + babel-loader, with the exception of `packages/dashboard-legacy` that is built via grunt scripts. Those compilations happen on every build, but we have hot-reload (`yarn serve:env`)! So that only changed parts of the code are re-built.
 
-The building process: when you run `yarn build <env>` two things happen
-1. `dashboard-legacy` is build for that `<env>` following grunt-defined steps;
+_Now a (short) longer explanation:_
+The building process start with `yarn build <env>` being run on the root directory. Then, two things happen
+1. `dashboard-legacy` is build for that `<env>` following grunt-defined steps (see `Gruntfile.js` for `build:<env>` directives);
 2. And once that's completed, `dashboard` is built.
 
 The package `dashboard` is a CRA ([create-react-app](https://github.com/facebook/create-react-app)) that uses [webpack]() for compiling/transpiling `tsx` and `jsx` code to pure `js` via [babel](https://babeljs.io/) using [this preset](https://github.com/facebook/create-react-app/tree/master/packages/babel-preset-react-app). Once webpack starts parsing the `dashboard` package it'll follow `import`s to all the other packages included there.
