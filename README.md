@@ -100,6 +100,7 @@ _TL;DR_
 It all starts on `package/dashboard` build. Then imported packages are compiled via webpack + babel-loader, with the exception of `packages/dashboard-legacy` that is built via grunt scripts. Those compilations happen on every build, but we have hot-reload (`yarn serve:env`)! So that only changed parts of the code are re-built.
 
 _Now a (short) longer explanation:_
+<br>
 The building process start with `yarn build <env>` being run on the root directory. Then, two things happen
 1. `dashboard-legacy` is build for that `<env>` following grunt-defined steps (see `Gruntfile.js` for `build:<env>` directives);
 2. And once that's completed, `dashboard` is built.
