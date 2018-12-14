@@ -1,5 +1,5 @@
 # Herbie Dashboard Monorepo
-This monorepo contains modules of Cobli Main Dashboard and other microapps.
+This monorepo contains modules of Cobli's main Dashboard and other microapps.
 
 ## Contents
 1. [Setup](#setup), [build, run](#build-and-run) and [deploy](#deploy)
@@ -35,9 +35,9 @@ $ yarn
 
 ## Build and run
 
-### cobli main dashboard
+### Cobli's main Dashboard
 
-You must run in the root folder of the project
+You must run from the root folder of the project
 
 ```
 $ yarn build <env>
@@ -76,28 +76,28 @@ The `<env>` options are `dev`, `beta`, `prod`
 
 ### Folder structure
 
-- packages (Contains all modules)
-  - dashboard (Main project importing everything else)
-  - dashboard-legacy (Plain js+jquery code <- slowly dying)
-  - dashboard-builder (Where the whole dashboard is compiled to in order to be deployed)
-  - base-components (UI shared components)
-  - _other packages ..._
-- scripts
-  - create-package.js (Create new package)
-  - test-package.js (Run jest test)
-  - storybook.js (Run storybook)
-- template (New packages' template)
-- Gruntfile.js (Scripts for building and deploying (primarily the legacy) dashboard)
-- lerna.json (Lerna monorepo configs)
-- tsconfig.json (Typescript configs)
-- tslint.json (Typescript linter configs)
-- herbie-dashboard.d.ts (Typescript types declarations for non-typescript code)
+- `packages` (Contains all modules)
+  - `dashboard` (Main project importing everything else)
+  - `dashboard-legacy` (Plain js+jquery code <- slowly dying)
+  - `dashboard-builder` (Where the whole dashboard is compiled to in order to be deployed)
+  - `base-components` (UI shared components)
+  - _`other packages ...`_
+- `scripts`
+  - `create-package.js` (Create new package)
+  - `test-package.js` (Run jest test)
+  - `storybook.js` (Run storybook)
+- `template` (New packages' template, for use of `create-package`. This probably shouldn't be edited.)
+- `Gruntfile.js` (Scripts for building and deploying (primarily the legacy) dashboard)
+- `lerna.json` (Lerna monorepo configs)
+- `tsconfig.json` (Typescript configs)
+- `tslint.json` (Typescript linter configs)
+- `herbie-dashboard.d.ts` (Typescript types declarations for non-typescript code)
 
 ### Build process graph
 
-TL;DR
+_TL;DR_
 <br>
-`package/dashboard`'s imported packages are compiled on each build via webpack + babel-loader, with the exception of `packages/dashboard-legacy` that is built via grunt scripts, but also happens on every build. (But we have hot-reload! So that only necessary parts are re-built.)
+It all starts on `package/dashboard`. Then imported packages are compiled via webpack + babel-loader, with the exception of `packages/dashboard-legacy` that is built via grunt scripts. Those compilations happen on every build, but we have hot-reload (`yarn serve:env`)! So that only changed parts of the code are re-built.
 
 The building process: when you run `yarn build <env>` two things happen
 1. `dashboard-legacy` is build for that `<env>` following grunt-defined steps;
@@ -105,7 +105,8 @@ The building process: when you run `yarn build <env>` two things happen
 
 The package `dashboard` is a CRA ([create-react-app](https://github.com/facebook/create-react-app)) that uses [webpack]() for compiling/transpiling `tsx` and `jsx` code to pure `js` via [babel](https://babeljs.io/) using [this preset](https://github.com/facebook/create-react-app/tree/master/packages/babel-preset-react-app). Once webpack starts parsing the `dashboard` package it'll follow `import`s to all the other packages included there.
 
-> Usually, without tinkering, CRA would only compile files that exist inside the CRA project itself. So all other packages would need to build themselves and load anything they would need. To circumnvent that, we use [`craco`](https://github.com/sharegate/craco) to extend the scope of CRA compiling step to include the `packages/` folder. This config is in `packages/dashboard/craco.config.js`. To tell CRA where each other project's entry point is, the line `"main": "src/index.tsx",` is included in each of those projects' `package.json`.
+> Usually CRA would only compile files that exist inside the CRA project itself. So all other packages would need to build themselves and load anything they need (`css`, `svg`, etc). To circumnvent that, we use [`craco`](https://github.com/sharegate/craco) to extend the scope of CRA compiling step, now including `packages/` folder.
+> This config is in `packages/dashboard/craco.config.js`. Also, to tell CRA where each other project's entry point is, the line `"main": "src/index.tsx",` is included in each of those projects' `package.json`.
 
 
 ## Development Workflow
