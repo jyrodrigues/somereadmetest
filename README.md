@@ -28,7 +28,7 @@ Install Lerna (it **must** be this forked version).
 $ yarn global add https://github.com/Cobliteam/lerna/archive/v3.4.4.tar.gz
 ```
 
-And finally, install all dependencies. **You must run this command from the root of the project_ so lerna can bootstrap and hoist dependencies.
+And finally, install all dependencies. **You must run this command from the root of the project** so lerna can bootstrap and hoist dependencies.
 ```
 $ yarn
 ```
